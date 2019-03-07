@@ -1,0 +1,11 @@
+Options +MultiViews
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+Redirect 301 /(do_.*)$ /form_handler/$1
+
+Options -Indexes
+
+php_value auto_prepend_file ./define.php
