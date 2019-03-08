@@ -1,10 +1,10 @@
 <?php
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-    include_once dirname(__FILE__) . '/../backend/Session.php';
+    require_once dirname(__FILE__) . '/../backend/Session.php';
     
-    $email_username = htmlspecialchars($_POST["email"]);
-    $pass           = htmlspecialchars($_POST["password"]);
+    $email_username = htmlspecialchars($_POST["email"], ENT_QUOTES, "UTF-8");
+    $pass           = htmlspecialchars($_POST["password"], ENT_QUOTES, "UTF-8");
     
     $err = null;
     try {
@@ -13,10 +13,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $err = $e->getMessage();
     }
     if (isset($err)) {
-        $msg = base64_encode($err);
-        header("Location: " . SITE_ROOT . "/login?msg=" . $msg);
+        $err = base64_encode($err);
+        redirect("/login?e=$err");
         exit();
     }
-    header("Location: " . SITE_ROOT . "/");
+    redirect("/");
+    exit();
 }
 

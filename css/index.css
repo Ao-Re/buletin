@@ -1,0 +1,16 @@
+.acronym {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.acronym.acronym-lg {
+    width: 45px;
+    height: 45px;
+}
+
+.acronym.acronym-sm {
+    width: 30px;
+    height: 30px;
+}

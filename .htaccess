@@ -8,4 +8,9 @@ Redirect 301 /(do_.*)$ /form_handler/$1
 
 Options -Indexes
 
-php_value auto_prepend_file ./define.php
+php_value auto_prepend_file ./loader.php
+
+<Files loader.php>
+  Order allow,deny
+  Deny from all
+</Files>

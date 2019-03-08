@@ -9,7 +9,7 @@
     ```
 
 2. Move the downloaded folder to `C:/xampp/htdocs`
-3. Open the project directory and copy `define.example.php` as `define.php`
+3. Open the project directory and copy `define.example.php` to `preload/define.php`
 4. In `define.php`, change the recaptcha keys into yours
 
     ```php

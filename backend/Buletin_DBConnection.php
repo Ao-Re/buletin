@@ -1,6 +1,6 @@
 <?php
-include_once 'DBConnection.php';
-include_once 'utils.php';
+require_once 'DBConnection.php';
+require_once 'utils.php';
 
 class Buletin_DBConnection extends DBConnection {
     public function __construct() {
@@ -23,7 +23,7 @@ class Buletin_DBConnection extends DBConnection {
         $stmt->bindParam(":password", $pass);
 
         if (!$stmt->execute()) {
-            throw new Exception("Cannot execute CREATE_USER SQL statement: ".$stmt->error);
+            throw new Exception("Cannot execute CREATE_USER SQL statement: ".json_encode($stmt->errorInfo()));
         }
     }
 
@@ -34,7 +34,7 @@ class Buletin_DBConnection extends DBConnection {
         $stmt->bindParam(":id", $user_id);
 
         if (!$stmt->execute()) {
-            throw new Exception("Cannot execute RETRIEVE_USER SQL statement: ".$stmt->error);
+            throw new Exception("Cannot execute RETRIEVE_USER SQL statement: ".json_encode($stmt->errorInfo()));
         }
 
         $data = $stmt->fetchAll();
@@ -48,7 +48,7 @@ class Buletin_DBConnection extends DBConnection {
         $stmt->bindParam(":email", $email);
 
         if (!$stmt->execute()) {
-            throw new Exception("Cannot execute RETRIEVE_EMAIL SQL statement: ".$stmt->error);
+            throw new Exception("Cannot execute RETRIEVE_EMAIL SQL statement: ".json_encode($stmt->errorInfo()));
         }
 
         $data = $stmt->fetchAll();
@@ -62,7 +62,7 @@ class Buletin_DBConnection extends DBConnection {
         $stmt->bindParam(":username", $username);
 
         if (!$stmt->execute()) {
-            throw new Exception("Cannot execute RETRIVE_USERNAME SQL statement: ".$stmt->error);
+            throw new Exception("Cannot execute RETRIVE_USERNAME SQL statement: ".json_encode($stmt->errorInfo()));
         }
 
         $data = $stmt->fetchAll();
@@ -77,7 +77,7 @@ class Buletin_DBConnection extends DBConnection {
         $stmt->bindParam(":username", $email_username);
 
         if (!$stmt->execute()) {
-            throw new Exception("Cannot execute RETRIEVE_EMAIL_PASS SQL statement: ".$stmt->error);
+            throw new Exception("Cannot execute RETRIEVE_EMAIL_PASS SQL statement: ".json_encode($stmt->errorInfo()));
         }
 
         $data = $stmt->fetchAll();
@@ -94,17 +94,29 @@ class Buletin_DBConnection extends DBConnection {
     }
     
     public function create_post(array $params): void{
-        if(empty(retrieve_user($params["user_id"]))) {
+        if(empty($this->retrieve_user($params["user_id"]))) {
             throw new Exception("User not found!");
         }
-        $sql = "INSERT INTO `post` (`user_id`, `title`, `content`) VALUES (:user_id, :title, :content)";
+        $sql = "INSERT INTO `post` (`user_id`, `content`) VALUES (:user_id, :content)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(":user_id", $params["user_id"]);
-        $stmt->bindParam(":title", $params["title"]);
         $stmt->bindParam(":content", $params["content"]);
 
         if (!$stmt->execute()) {
-            throw new Exception("Cannot execute CREATE_POST SQL statement: ".$stmt->error);
+            throw new Exception("Cannot execute CREATE_POST SQL statement: ".json_encode($stmt->errorInfo()));
         }
+    }
+
+    public function retrieve_posts(int $count=-1): array {
+        $sql = "SELECT * FROM `post` INNER JOIN `user` ON `post`.`user_id`=`user`.`id` ORDER BY `timestamp` DESC";
+        if($count > 0) $sql = $sql." LIMIT :count";
+        $stmt = $this->pdo->prepare($sql);
+        if($count > 0) $stmt->bindParam(":count", $count, PDO::PARAM_INT);
+        
+        if (!$stmt->execute()) {
+            throw new Exception("Cannot execute RETRIEVE_POSTS SQL statement: ".json_encode($stmt->errorInfo()));
+        }
+
+        return $stmt->fetchAll();
     }
 }

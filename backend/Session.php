@@ -1,11 +1,11 @@
 <?php
-include_once 'Buletin_DBConnection.php';
+require_once 'Buletin_DBConnection.php';
 
 class Session {
-  public static function start(string $email_pass, string $password) {
+  public static function start(string $email_username, string $password) {
     $db_conn = new Buletin_DBConnection();
-    $result = $db_conn->retrieve_email_pass($email_pass, $password);
-    if(empty($result)) {
+    $result = $db_conn->retrieve_email_pass($email_username, $password)[0];
+    if(empty($result) || !isset($result[0])) {
       return "Invalid username or password";
     }
     session_start();
@@ -13,14 +13,20 @@ class Session {
     $_SESSION["username"] = $result["username"];
     $_SESSION["name"] = $result["name"];
     $_SESSION["email"] = $result["email"];
+    
+    $names = explode(" ", $_SESSION["name"]);
+    $acronym = $names[0][0].end($names)[0];
+
+    $_SESSION["acronym"] = strtoupper($acronym);
   }
   public static function close() {
+    session_start();
     session_destroy();
   }
-  public static function check(string $redirect) {
+  public static function check(string $redirect=null) {
     session_start();
-    if(!isset($_SESSION["id"])) {
-      header("Location: ".$redirect);
+    if(isset($redirect) && !isset($_SESSION["id"])) {
+      redirect($redirect);
       exit();
     }
   }
