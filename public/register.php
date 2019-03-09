@@ -41,7 +41,7 @@ $prev = isset($_GET['p']) ? json_decode(base64_decode($_GET['p'])) : null;
                                         class="form-control form-control-sm <?php if(isset($err) && isset($err->email)) echo "is-invalid"; ?>"
                                         value="<?php if(isset($prev)) e($prev->email) ?>" name="email" id="email"
                                         placeholder="e.g. johndoe@mail.com" required autofocus>
-                                    <div class="invalid-feedback">
+                                    <div class="invalid-feedback" id="email-invalid">
                                         <?php if(isset($err) && isset($err->email)) e($err->email); ?></div>
                                 </div>
                                 <div class="form-group">
@@ -50,7 +50,7 @@ $prev = isset($_GET['p']) ? json_decode(base64_decode($_GET['p'])) : null;
                                         class="form-control form-control-sm <?php if(isset($err) && isset($err->name)) echo "is-invalid"; ?>"
                                         value="<?php if(isset($prev)) e($prev->name) ?>" name="name" id="name"
                                         placeholder="e.g. John Doe" required>
-                                    <div class="invalid-feedback">
+                                    <div class="invalid-feedback" id="name-invalid">
                                         <?php if(isset($err) && isset($err->name)) e($err->name); ?></div>
                                 </div>
                                 <div class="form-group">
@@ -59,7 +59,7 @@ $prev = isset($_GET['p']) ? json_decode(base64_decode($_GET['p'])) : null;
                                         class="form-control form-control-sm <?php if(isset($err) && isset($err->username)) echo "is-invalid"; ?>"
                                         value="<?php if(isset($prev)) e($prev->username) ?>" name="username"
                                         id="username" placeholder="e.g. johndoe123" required>
-                                    <div class="invalid-feedback">
+                                    <div class="invalid-feedback" id="username-invalid">
                                         <?php if(isset($err) && isset($err->username)) e($err->username); ?>
                                     </div>
                                 </div>
@@ -69,7 +69,7 @@ $prev = isset($_GET['p']) ? json_decode(base64_decode($_GET['p'])) : null;
                                         <input type="password"
                                             class="form-control form-control-sm <?php if(isset($err) && isset($err->password)) echo "is-invalid"; ?>"
                                             name="password" id="password" placeholder="Enter your password" required>
-                                        <div class="invalid-feedback">
+                                        <div class="invalid-feedback" id="password-invalid">
                                             <?php if(isset($err) && isset($err->password)) e($err->password); ?>
                                         </div>
                                     </div>
@@ -79,18 +79,18 @@ $prev = isset($_GET['p']) ? json_decode(base64_decode($_GET['p'])) : null;
                                             class="form-control form-control-sm <?php if(isset($err) && isset($err->confirm)) echo "is-invalid"; ?>"
                                             name="confirmPassword" id="confirmPassword"
                                             placeholder="Enter your password again">
-                                        <div class="invalid-feedback">
+                                        <div class="invalid-feedback" id="confirm-invalid">
                                             <?php if(isset($err) && isset($err->confirm)) e($err->confirm); ?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group mt-3">
-                                    <div class="g-recaptcha" data-sitekey="<?php echo RECAPTCHA_SITE_KEY ?>"></div>
+                                    <div class="g-recaptcha" data-sitekey="<?php echo RECAPTCHA_SITE_KEY ?>" data-callback="captcha"></div>
                                     <small class="text-danger"><?php if(isset($err) && isset($err->captcha)) e($err->captcha); ?></small>
                                 </div>
                                 <small
                                     class="text-danger font-weight-bold"><?php if(isset($err) && isset($err->global)) e($err->global); ?></small>
-                                    <button class="btn btn-info btn-block mt-3" type="submit">Register</button>
+                                    <button class="btn btn-info btn-block mt-3" type="submit" id="register-submit" disabled>Register</button>
                                     <small class="text-center d-block mt-3 text-muted">Already have an account? Log in
                                         <a href="login">here</a></small>
                             </form>
@@ -101,6 +101,7 @@ $prev = isset($_GET['p']) ? json_decode(base64_decode($_GET['p'])) : null;
         </div>
     </main>
     <?php include './footer.php'; ?>
+    <script src="./script/register.js"></script>
 </body>
 
 </html>

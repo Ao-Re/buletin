@@ -6,9 +6,8 @@
                 <li class="nav-item">
                     <?php if(isset($_SESSION["id"])): ?>
                     <?php if(isset($index)): ?>
-                    <button class="btn btn-info px-3 rounded-pill d-none d-md-inline" data-toggle="modal"
-                        data-target="#postModal">Create post</button>
-                    <button class="btn btn-info px-3 rounded-pill btn-sm d-inline d-md-none" data-toggle="modal"
+                    <button class="btn btn-info px-3 rounded-pill d-none d-md-inline trigger-post">Create post</button>
+                    <button class="btn btn-info px-3 rounded-pill btn-sm d-inline d-md-none trigger-post" data-toggle="modal"
                         data-target="#postModal">Create post</button>
                     <?php else: ?>
                     <a class="btn btn-info px-3 rounded-pill d-none d-md-inline" href="<?php url("/")?>">Create post</a>

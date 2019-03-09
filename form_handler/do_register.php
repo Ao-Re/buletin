@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($password)) {
         $err['password'] = "Password is required";
     } elseif (strlen($password) > 30 || strlen($password) < 6) {
-        $err['password'] = "Password should be between 5 and 30 characters";
+        $err['password'] = "Password should be between 6 and 30 characters";
     }
     // validate confirm
     if (empty($password)) {

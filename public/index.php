@@ -58,7 +58,7 @@ $posts = $db_conn->retrieve_posts();
                     <div class="card p-0 border-0 rounded-0">
                         <?php if(isset($_SESSION["id"])): ?>
                         <div class="card-body" style="background-color: #f5f8f9">
-                            <form action="" method="post">
+                            <form action="" method="post" id="post-form">
                                 <div class="row no-gutters">
                                     <div class="col-1 text-right">
                                         <div class="acronym acronym-sm bg-secondary">
@@ -71,16 +71,16 @@ $posts = $db_conn->retrieve_posts();
                                                 class="form-control form-control-sm auto-expand <?php if(isset($err) && isset($err->content)) echo "is-invalid"; ?>"
                                                 name="content" id="content" rows="1"
                                                 placeholder="What's happening today?"><?php if(isset($prev) && isset($prev->content)) e($prev->content) ?></textarea>
-                                            <div class="invalid-feedback">
+                                            <div class="invalid-feedback" id="content-invalid">
                                                 <?php if(isset($err) && isset($err->content)) e($err->content); ?>
                                             </div>
                                         </div>
                                         <div class="mt-3 <?php if(!isset($err)) echo "d-none"?>" id="post-footer">
-                                            <button type="submit"
-                                                class="btn btn-info btn-sm rounded-pill float-right py-2 px-3">
+                                            <button type="submit" id="post-submit"
+                                                class="btn btn-info btn-sm rounded-pill float-right py-2 px-3" disabled>
                                                 Submit post
                                             </button>
-                                            <div class="g-recaptcha" data-sitekey="<?php echo RECAPTCHA_SITE_KEY ?>">
+                                            <div class="g-recaptcha" data-sitekey="<?php echo RECAPTCHA_SITE_KEY ?>" data-callback="postCaptcha">
                                             </div>
                                             <small
                                                 class="text-danger"><?php if(isset($err) && isset($err->captcha)) e($err->captcha); ?></small>
@@ -134,51 +134,6 @@ $posts = $db_conn->retrieve_posts();
             </div>
         </div>
     </main>
-    <?php if (isset($_SESSION["id"])): ?>
-    <!-- Modal -->
-    <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalTitle"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header" id="postModalTitle">
-                    <strong>Create post</strong>
-                </div>
-                <div class="modal-body">
-                    <form action="" method="post">
-                        <div class="row no-gutters">
-                            <div class="col-1 text-right">
-                                <div class="acronym acronym-sm bg-secondary">
-                                    <span class="text-white m-0"><?php e($_SESSION['acronym']) ?></span>
-                                </div>
-                            </div>
-                            <div class="col-11">
-                                <div class="form-group">
-                                    <textarea
-                                        class="form-control form-control-sm <?php if(isset($err) && isset($err->content)) echo "is-invalid"; ?>"
-                                        name="content" id="content2" rows="3"
-                                        placeholder="What's happening today?"><?php if(isset($prev) && isset($prev->content)) e($prev->content) ?></textarea>
-                                    <div class="invalid-feedback">
-                                        <?php if(isset($err) && isset($err->content)) e($err->content); ?>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit"
-                                        class="btn btn-info btn-sm rounded-pill float-right py-2 px-3">
-                                        Submit post
-                                    </button>
-                                    <div class="g-recaptcha" data-sitekey="<?php echo RECAPTCHA_SITE_KEY ?>">
-                                    </div>
-                                    <small
-                                        class="text-danger"><?php if(isset($err) && isset($err->captcha)) e($err->captcha); ?></small>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <?php endif; ?>
     <?php include './footer.php'; ?>
     <script src="./script/index.js"></script>
 </body>

@@ -35,19 +35,23 @@ $prev = isset($_GET['p']) ? json_decode(base64_decode($_GET['p'])) : null;
                                 <div class="form-group">
                                     <label for="inputEmail" class="sr-only">Email or username</label>
                                     <input type="text" id="inputEmail" class="form-control"
-                                        placeholder="Email or username" name="email" value="<?php if (isset($prev)) e($prev->email);?>" required autofocus/>
+                                        placeholder="Email or username" name="email"
+                                        value="<?php if (isset($prev)) e($prev->email);?>" required autofocus />
+                                    <div class="invalid-feedback" id="email-invalid"></div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputPassword" class="sr-only">Password</label>
                                     <input type="password" id="inputPassword" class="form-control"
                                         placeholder="Password" name="password" required="" />
+                                    <div class="invalid-feedback" id="password-invalid"></div>
                                 </div>
                                 <?php if (isset($err)): ?>
                                 <strong class="text-danger"><?php e($err); ?></strong>
                                 <?php endif; ?>
-                                <button class="btn btn-info rounded-pill btn-block mt-3" type="submit">Log in</button>
-                                <small class="d-block text-center mt-2">Don't have an account? <a href="register">Create one</a></small>
-
+                                <button class="btn btn-info rounded-pill btn-block mt-3" type="submit" id="login-submit"
+                                    disabled>Log in</button>
+                                <small class="d-block text-center mt-2">Don't have an account? <a href="register">Create
+                                        one</a></small>
                             </form>
                         </div>
                     </div>
@@ -56,6 +60,7 @@ $prev = isset($_GET['p']) ? json_decode(base64_decode($_GET['p'])) : null;
         </div>
     </main>
     <?php include './footer.php'; ?>
+    <script src="./script/login.js"></script>
 </body>
 
 </html>

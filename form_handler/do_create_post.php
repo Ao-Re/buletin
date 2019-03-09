@@ -19,8 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // validate content
     if (empty($content)) {
         $err['content'] = "Post cannot be empty";
-    } else if(strlen($content) > 500) {
-        $err['content'] = "Post cannot exceed 500 characters";
+    } else if(strlen($content) > 300) {
+        $err['content'] = "Post cannot exceed 300 characters";
     }
     // validate captcha
     if (intval($responseKeys["success"]) !== 1) {
