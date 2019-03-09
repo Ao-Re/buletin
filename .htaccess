@@ -4,13 +4,16 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
-Redirect 301 /(do_.*)$ /form_handler/$1
+RewriteBase /buletin/
+RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
+RewriteRule ^ %1 [L,NE,R=302]
+RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
 
-Options -Indexes
+php_value auto_prepend_file ../preload/loader.php
 
-php_value auto_prepend_file ./loader.php
-
-<Files loader.php>
+<Files ../preload/loader.php>
   Order allow,deny
   Deny from all
 </Files>
+
+Options -Indexes

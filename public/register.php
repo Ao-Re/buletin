@@ -1,5 +1,7 @@
 <?php
-require_once './form_handler/do_register.php';
+Session::check();
+
+require_once '../form_handler/do_register.php';
 $err  = isset($_GET['e']) ? json_decode(base64_decode($_GET['e'])) : null;
 $prev = isset($_GET['p']) ? json_decode(base64_decode($_GET['p'])) : null;
 ?>

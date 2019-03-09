@@ -4,5 +4,8 @@ $('#content').click(function(e) {
 })
 $('#content2').click(function(e) {
   $(this).attr('rows', '3').css('overflow', 'hidden').autogrow({horizontal: false});
-}) 
+})
+function en(selector) {
+  $(selector).prop('disabled', false);
+}
 

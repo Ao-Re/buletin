@@ -1,10 +1,7 @@
 <?php
-require_once "./backend/Session.php";
 Session::check();
-
-require_once "./form_handler/do_create_post.php";
-require_once "./backend/Buletin_DBConnection.php";
-
+require_once "../form_handler/do_create_post.php";
+$index = true;
 $err  = isset($_GET['e']) ? json_decode(base64_decode($_GET['e'])) : null;
 $prev = isset($_GET['p']) ? json_decode(base64_decode($_GET['p'])) : null;
 $db_conn = new Buletin_DBConnection();

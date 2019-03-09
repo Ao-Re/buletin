@@ -8,6 +8,10 @@ class Session {
     if(empty($result) || !isset($result[0])) {
       return "Invalid username or password";
     }
+
+    ini_set("session.gc_maxlifetime", '3600');
+    session_set_cookie_params(360);
+
     session_start();
     $_SESSION["id"] = $result["id"];
     $_SESSION["username"] = $result["username"];
@@ -23,11 +27,16 @@ class Session {
     session_start();
     session_destroy();
   }
-  public static function check(string $redirect=null) {
+  public static function check(string $redirect=null, bool $set=true) {
     session_start();
-    if(isset($redirect) && !isset($_SESSION["id"])) {
-      redirect($redirect);
-      exit();
+    if(isset($redirect)) {
+      if($set && !isset($_SESSION["id"])) {
+        redirect($redirect);
+        exit();
+      } elseif(!$set && isset($_SESSION["id"])) {
+        redirect($redirect);
+        exit();
+      }
     }
   }
 }
