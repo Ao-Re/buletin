@@ -31,5 +31,6 @@
     ```
 
 6. Open `localhost/phpmyadmin` in your browser.
-7. From the ***Import*** tab, import `buletin.sql`. Leave the other options as is.
-8. Access the site from `127.0.0.1/buletin` (accessing from `localhost/buletin` won't work).
+7. Create a new database called `buletin`.
+8. From the ***Import*** tab, import `buletin.sql`. Leave the other options as is.
+9. Access the site from `127.0.0.1/buletin` (accessing from `localhost/buletin` won't work).
