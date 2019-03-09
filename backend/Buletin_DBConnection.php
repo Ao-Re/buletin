@@ -12,7 +12,7 @@ class Buletin_DBConnection extends DBConnection {
     public function create_user(array $params): void{
         $sql = "INSERT INTO `user` (`id`, `name`, `username`, `email`, `password`) VALUES (:id, :name, :username, :email, :password)";
         
-        $id   = gen_uuid();
+        $id   = uniqid("", true);
         $pass = password_hash($params["password"], PASSWORD_DEFAULT);
 
         $stmt = $this->pdo->prepare($sql);

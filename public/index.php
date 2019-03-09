@@ -134,7 +134,7 @@ $posts = $db_conn->retrieve_posts();
             </div>
         </div>
     </main>
-
+    <?php if (isset($_SESSION["id"])): ?>
     <!-- Modal -->
     <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalTitle"
         aria-hidden="true">
@@ -178,6 +178,7 @@ $posts = $db_conn->retrieve_posts();
             </div>
         </div>
     </div>
+    <?php endif; ?>
     <?php include './footer.php'; ?>
     <script src="./script/index.js"></script>
 </body>
