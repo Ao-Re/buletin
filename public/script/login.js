@@ -1,5 +1,5 @@
 var valid = {
-    email: false,
+    email: !!$('#inputEmail').val(),
     pass: false,
 }
 $('#inputEmail').on('input', function(e) {

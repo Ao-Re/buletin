@@ -1,9 +1,9 @@
 var valid = {
-  email: false,
-  name: false,
-  username: false,
-  pass: false,
-  confirm: false,
+  email: !$('#email').hasClass('is-invalid'),
+  name: !$('#name').hasClass('is-invalid'),
+  username: !$('#username').hasClass('is-invalid'),
+  pass: !$('#password').hasClass('is-invalid'),
+  confirm: !$('#confirmPassword').hasClass('is-invalid'),
   captcha: false
 };
 $('#email').on('input', function(e) {
@@ -63,12 +63,14 @@ $('#username').on('input', function(e) {
 });
 $('#password').on('input', function(e) {
   var password = $(this).val();
+  var confirm = $('#confirmPassword').val();
   var err = null;
   if (!password) {
     err = 'Password cannot be empty';
   } else if (password.length > 30 || password.length < 6) {
     err = 'Password should be 6-30 characters';
   }
+  if (confirm) validateConfirm();
   if (err) {
     $(this).addClass('is-invalid');
     $('#password-invalid').html(err);
@@ -78,22 +80,24 @@ $('#password').on('input', function(e) {
   $(this).removeClass('is-invalid');
   setFormValid('pass', true);
 });
-$('#confirmPassword').on('input', function(e) {
-  var confirm = $(this).val();
+
+$('#confirmPassword').on('input', validateConfirm);
+function validateConfirm() {
+  var confirm = $('#confirmPassword').val();
   var password = $('#password').val();
   var err = null;
   if (confirm !== password) {
     err = 'Passwords do not match';
   }
   if (err) {
-    $(this).addClass('is-invalid');
+    $('#confirmPassword').addClass('is-invalid');
     $('#confirm-invalid').html(err);
     setFormValid('confirm', false);
     return;
   }
-  $(this).removeClass('is-invalid');
+  $('#confirmPassword').removeClass('is-invalid');
   setFormValid('confirm', true);
-});
+}
 function captcha() {
   setFormValid('captcha', grecaptcha.getResponse().length !== 0);
 }
